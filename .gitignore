@@ -1,0 +1,6 @@
+perlCodeGen.cpp
+*/Debug
+*.user
+.vs
+packages
+Release
