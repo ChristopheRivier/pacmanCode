@@ -51,7 +51,7 @@ int main()
 			if (param) {
 				cerr << pacId << " " << mine << " " << x << " " << y << " " << typeId << " " << speedTurnsLeft << " " << abilityCooldown << endl;
 			}
-			Element e(Point(x,y),Element::Pac,pacId, speedTurnsLeft, mine);
+			PacMan e(Point(x,y),Element::Pac,pacId, speedTurnsLeft, mine,typeId);
 			g.addPac(e);
 
 		}

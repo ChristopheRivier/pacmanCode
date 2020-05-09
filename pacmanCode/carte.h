@@ -6,7 +6,7 @@
 
 class Tuile {
 	char input;
-	bool pass = false;
+	bool visite = false;
 	std::vector<Element*> lst;
 
 public:
@@ -15,22 +15,26 @@ public:
 	char getChar() { return input; }
 	
 	bool isWall() { return input == '#'; }
-	bool isFree() { return !pass && !isWall(); }
-	void clearPass() { 
-		pass = false; 
+	bool isFree() { return !isWall(); }
+	void clearPass() {
 		lst.clear();
 	}
 	void addEl(Element& e) {
+		if (e.isPac())
+			passer();
 		lst.push_back(&e);
 	}
-	double getPoid() {
+	double getPoid(Element::Echifoumi chi) {
 		double a = .0;
 		for (std::vector<Element*>::iterator it = lst.begin(); it != lst.end(); ++it) {
-			a += (*it)->getPoid();
+			a += (*it)->getPoid(chi);
 		}
+		if(!visite)
+			a += 600.;
 		return a;
 	}
-	void passer() { pass = true; }
+	void passer() { visite = true; }
+	bool isPasser() { return visite; }
 };
 
 class Carte {
@@ -94,12 +98,12 @@ public:
 	void addEl(Element& e) {
 		cart[e.getX()][e.getY()].addEl(e);
 	}
-	double getPoid(Point& p) {
-		return cart[p.x][p.y].getPoid();
+	double getPoid(Point& p,Element::Echifoumi monType) {
+		return cart[p.x][p.y].getPoid(monType);
 	}
 	void printCarte() {
 		if (true) {
-			for (int j = 0; j < height; ++j)
+			/*for (int j = 0; j < height; ++j)
 			{
 				std::cerr << "	ca.addLine(" << j<<",\"";
 				for (int i = 0; i < width; ++i)
@@ -111,6 +115,15 @@ public:
 				std::cerr << "Game a;" << std::endl;
 				std::cerr << "a.addCarte(ca);" << std::endl;
 				std::cerr << "InfoBoucle boul;" << std::endl;
+		*/
+			for (int j = 0; j < height; ++j)
+			{
+				for (int i = 0; i < width; ++i)
+				{
+					std::cerr << cart[i][j].isPasser() ? "1 ":"0 ";
+				}
+				std::cerr << "" << std::endl;
+			}
 		}
 	}
 	void clear() {
@@ -121,6 +134,19 @@ public:
 				cart[i][j].clearPass();
 			}
 		}
+	}
+	/**
+	for debug TU add all pass to tuile
+	*/
+	void allPass() {
+		for (int i = 0; i < width; ++i)
+		{
+			for (int j = 0; j < height; ++j)
+			{
+				cart[i][j].passer();
+			}
+		}
+
 	}
 	
 };
