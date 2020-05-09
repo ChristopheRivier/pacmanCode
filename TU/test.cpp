@@ -87,6 +87,23 @@ TEST(TestCaseName, CoincedansMur) {
 	g.addPac(e);
 	g.allPass();
 	EXPECT_EQ(g.calculDeplacement(), "MOVE 0 1 2");
-
-
 }
+
+TEST(TestSpeed, simpleSpeed) {
+	Game g;
+	g.initCarte(8, 8);
+	g.addCarteLine(0, "########");
+	g.addCarteLine(1, "#      #");
+	g.addCarteLine(2, "#      #");
+	g.addCarteLine(3, "#   #  #");
+	g.addCarteLine(4, "# # #  #");
+	g.addCarteLine(5, "# # #  #");
+	g.addCarteLine(6, "# # #  #");
+	g.addCarteLine(7, "########");
+
+	PacMan e(Point(1, 1), Element::Pac, 0, 5, true, "SCISSORS");
+	g.addPac(e);
+	g.allPass();
+	EXPECT_EQ(g.calculDeplacement(), "MOVE 0 1 3");
+}
+

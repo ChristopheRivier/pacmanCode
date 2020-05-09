@@ -41,8 +41,12 @@ public:
 		}
 	}
 	int getId() { return id; }
+	void setPoint(Point p) {
+		pos.x = p.x;
+		pos.y = p.y;
+	}
 	virtual bool isPac() { return false; }
-private:
+protected:
 	Point pos;
 	EType typ;
 	int id;
@@ -78,6 +82,7 @@ public:
 	}
 	Echifoumi getChifoumi() { return chichi; }
 	bool isPac() { return true; }
+	bool isSpeed() { return val > 0; }
 private:
 	Echifoumi chichi;
 };

@@ -7,6 +7,7 @@
 class Tuile {
 	char input;
 	bool visite = false;
+	bool interdit = false;
 	std::vector<Element*> lst;
 
 public:
@@ -15,9 +16,10 @@ public:
 	char getChar() { return input; }
 	
 	bool isWall() { return input == '#'; }
-	bool isFree() { return !isWall(); }
+	bool isFree() { return !isWall()&&!interdit; }
 	void clearPass() {
 		lst.clear();
+		interdit = false;
 	}
 	void addEl(Element& e) {
 		if (e.isPac())
@@ -25,7 +27,7 @@ public:
 		lst.push_back(&e);
 	}
 	double getPoid(Element::Echifoumi chi) {
-		double a = .0;
+		double a = .1;
 		for (std::vector<Element*>::iterator it = lst.begin(); it != lst.end(); ++it) {
 			a += (*it)->getPoid(chi);
 		}
@@ -35,6 +37,7 @@ public:
 	}
 	void passer() { visite = true; }
 	bool isPasser() { return visite; }
+	void deplacement() { interdit = true; visite = true; }
 };
 
 class Carte {
@@ -134,6 +137,9 @@ public:
 				cart[i][j].clearPass();
 			}
 		}
+	}
+	void deplacement(Point p) {
+		cart[p.x][p.y].deplacement();
 	}
 	/**
 	for debug TU add all pass to tuile

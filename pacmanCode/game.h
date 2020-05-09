@@ -8,7 +8,7 @@ class Game {
 	std::vector<PacMan> myPac;
 	std::vector<PacMan> hisPac;
 	std::vector<Element> pillule;
-
+	int cpt = 0;
 public:
 	Game() :cart(NULL) {}
 	void initCarte(int w, int h) {
@@ -42,7 +42,7 @@ public:
 		double dividende = 4;
 		if (cart->isWall(fils))
 			return -10;
-		if (prof == 10 )	
+		if (prof == 11 )
 			return p;
 		prof++;
 		p = cart->getPoid(fils,chi);
@@ -57,12 +57,20 @@ public:
 
 		return p;
 	}
+	std::string deplacementSpeed(PacMan& e) {
+		Point p = deplacement(e);
+		if (e.isSpeed()) {
+			e.setPoint(p);
+			p = deplacement(e);
+		}
+		return "MOVE " + std::to_string(e.getId()) + " " + p.toString();
+	}
 	//calcul for one pac where to go
-	std::string deplacement(PacMan& e) {
-		double pN=-1,pE=-1,pW=-1,pS = -1;
+	Point deplacement(PacMan& e) {
+		double pN = -100, pE = -100, pW = -100, pS = -100;
 		Point pos(e.getX(), e.getY());
 		if (cart->deplacementPossible(pos.getN(), pos))
-			pN = poidTuile(0, pos.getN(), pos,e.getChifoumi());
+			pN = poidTuile(0, pos.getN(), pos, e.getChifoumi());
 		if (cart->deplacementPossible(pos.getE(), pos))
 			pE = poidTuile(0, pos.getE(), pos, e.getChifoumi());
 		if (cart->deplacementPossible(pos.getS(), pos))
@@ -71,25 +79,34 @@ public:
 			pW = poidTuile(0, pos.getW(), pos, e.getChifoumi());
 		if (pE >= pS &&
 			pE >= pW &&
-			pE >= pN)
-			return std::to_string(e.getId())+" " + pos.getE().toString();
+			pE >= pN) {
+			cart->deplacement(pos.getE());
+			return pos.getE();
+		}
 		if (pW >= pS &&
 			pW >= pE &&
-			pW >= pN)
-			return std::to_string(e.getId()) +" " + pos.getW().toString();
+			pW >= pN) {
+			cart->deplacement(pos.getW());
+			return pos.getW();
+		}
 		if (pS >= pN &&
 			pS >= pW &&
-			pS >= pE)
-			return std::to_string(e.getId()) + " " + pos.getS().toString();
+			pS >= pE) {
+			cart->deplacement(pos.getS());
+			return pos.getS();
+		}
 		if (pN >= pE &&
 			pN >= pW &&
-			pN >= pS)
-			return std::to_string(e.getId()) + " " + pos.getN().toString();
-		return "0 0 0";
+			pN >= pS) {
+			cart->deplacement(pos.getN());
+			return pos.getN();
+		}
+		return pos;
 	}
 
 	std::string calculDeplacement(){
 		cart->clear();
+		bool speedPossible = (cpt == 0);
 		for (std::vector<PacMan>::iterator it = hisPac.begin(); it != hisPac.end(); ++it) {
 			cart->addEl(*it);
 		}
@@ -102,9 +119,15 @@ public:
 			cart->addEl(*it);
 			if (it != myPac.begin())
 				ret += "|";
-			ret += "MOVE " + deplacement(*it);
+			if (!(*it).isSpeed()&& speedPossible) {
+				ret += "SPEED " + std::to_string((*it).getId());
+				cpt = 12;
+			}
+			else
+				ret += deplacementSpeed(*it);
 		}
-			return ret;
+		--cpt;
+		return ret;
 	}
 	/**
 	for debug TU add all pass to tuile
