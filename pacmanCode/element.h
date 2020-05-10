@@ -30,10 +30,10 @@ public:
 			return -1000;
 			break;
 		case Element::Bouffe:
-			//if (val > 1)
-				return val * 600;
-			//else
-				//return .0;
+			if (val > 1)
+				return val * 100000;
+			else
+				return 600;
 			break;
 		default:
 			return -100;

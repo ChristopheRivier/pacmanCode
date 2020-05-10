@@ -71,6 +71,7 @@ public:
 		}
 		std::string ret = "MOVE " + std::to_string(e.getId()) + " " + p.toString();
 		//check if adversaire can beat me only if possible
+		//if(cpt%10==0)
 		if(false)
 		for (std::vector<PacMan>::iterator it = hisPac.begin();
 			it != hisPac.end();
@@ -144,11 +145,13 @@ public:
 			cart->addEl(*it);
 			if (it != myPac.begin())
 				ret += "|";
-			if (!(*it).isSpeed()&& speedPossible&&noSpeedTest) {
-				ret += "SPEED " + std::to_string((*it).getId());
+			std::string ss= deplacementSpeed(*it);
+			//if (!(*it).isSpeed()&& speedPossible&&noSpeedTest &&( ss.rfind("SWITCH")!=0||cpt<50)) {
+			if (!(*it).isSpeed() && speedPossible && noSpeedTest ) {
+					ret += "SPEED " + std::to_string((*it).getId());
 			}
 			else
-				ret += deplacementSpeed(*it);
+				ret += ss;
 		}
 		++cpt;
 		return ret;
