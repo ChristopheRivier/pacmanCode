@@ -48,10 +48,11 @@ int main()
 			int speedTurnsLeft; // unused in wood leagueccs
 			int abilityCooldown; // unused in wood leagues
 			cin >> pacId >> mine >> x >> y >> typeId >> speedTurnsLeft >> abilityCooldown; cin.ignore();
+			PacMan e(Point(x, y), Element::Pac, pacId, speedTurnsLeft, mine, typeId);
 			if (param) {
-				cerr << pacId << " " << mine << " " << x << " " << y << " " << typeId << " " << speedTurnsLeft << " " << abilityCooldown << endl;
+				e.print();
+				//cerr << pacId << " " << mine << " " << x << " " << y << " " << typeId << " " << speedTurnsLeft << " " << abilityCooldown << endl;
 			}
-			PacMan e(Point(x,y),Element::Pac,pacId, speedTurnsLeft, mine,typeId);
 			g.addPac(e);
 
 		}
@@ -62,10 +63,13 @@ int main()
 			int y;
 			int value; // amount of points this pellet is worth
 			cin >> x >> y >> value; cin.ignore();
+			Element e(Point(x, y), Element::Bouffe, 0, value, false);
+
 			if (param) {
 				cerr << x << " " << y << " " << value << endl;
+				e.print();
 			}
-			Element e(Point(x, y), Element::Bouffe, 0, value, false);
+
 			g.addPillule(e);
 		}
 		cout << g.calculDeplacement() << endl;

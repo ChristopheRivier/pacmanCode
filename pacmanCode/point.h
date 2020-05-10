@@ -7,7 +7,7 @@ class Singleton {
 	Singleton() {} // constructeur privé
 	int width;
 	int height;
-
+	double poidAttaque=7000;
 	static Singleton *singleton;
 
 public:
@@ -15,6 +15,12 @@ public:
 	   // Instanciation au premier appel seulement
 		static Singleton singleton;
 		return singleton;
+	}
+	double getPoidAttaque() {
+		return poidAttaque;
+	}
+	void setPoidAttaque(double  a) {
+		poidAttaque = a;
 	}
 	// ...
 	void setWidth(int w) {

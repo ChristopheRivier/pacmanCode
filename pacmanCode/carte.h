@@ -36,6 +36,7 @@ public:
 		return a;
 	}
 	void passer() { visite = true; }
+	void clearVisite() { visite = false; }
 	bool isPasser() { return visite; }
 	void deplacement() { interdit = true; visite = true; }
 };
@@ -106,19 +107,16 @@ public:
 	}
 	void printCarte() {
 		if (true) {
-			/*for (int j = 0; j < height; ++j)
+			for (int j = 0; j < height; ++j)
 			{
-				std::cerr << "	ca.addLine(" << j<<",\"";
+				std::cerr << "	g.addCarteLine(" << j<<",\"";
 				for (int i = 0; i < width; ++i)
 				{
 					std::cerr << cart[i][j].getChar();
 				}
 				std::cerr<< "\");"<<std::endl;
 			}
-				std::cerr << "Game a;" << std::endl;
-				std::cerr << "a.addCarte(ca);" << std::endl;
-				std::cerr << "InfoBoucle boul;" << std::endl;
-		*/
+			/*
 			for (int j = 0; j < height; ++j)
 			{
 				for (int i = 0; i < width; ++i)
@@ -127,6 +125,7 @@ public:
 				}
 				std::cerr << "" << std::endl;
 			}
+			*/
 		}
 	}
 	void clear() {
@@ -141,6 +140,9 @@ public:
 	void deplacement(Point p) {
 		cart[p.x][p.y].deplacement();
 	}
+	void pass(Point& p) {
+		cart[p.x][p.y].passer();
+	}
 	/**
 	for debug TU add all pass to tuile
 	*/
@@ -154,5 +156,7 @@ public:
 		}
 
 	}
-	
+	void notPass(int a, int b) {
+		cart[a][b].clearVisite();
+	}
 };

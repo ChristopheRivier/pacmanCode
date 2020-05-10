@@ -9,6 +9,8 @@ class Game {
 	std::vector<PacMan> hisPac;
 	std::vector<Element> pillule;
 	int cpt = 0;
+	///test sans speed
+	bool noSpeedTest = true;
 public:
 	Game() :cart(NULL) {}
 	void initCarte(int w, int h) {
@@ -58,16 +60,34 @@ public:
 		return p;
 	}
 	std::string deplacementSpeed(PacMan& e) {
+		Point sauv = Point(e.getX(), e.getY());
+		cart->deplacement(sauv);
 		Point p = deplacement(e);
 		if (e.isSpeed()) {
 			e.setPoint(p);
+			//on informe qu’on est déjà passer par là
+			cart->pass(p);
 			p = deplacement(e);
 		}
-		return "MOVE " + std::to_string(e.getId()) + " " + p.toString();
+		std::string ret = "MOVE " + std::to_string(e.getId()) + " " + p.toString();
+		//check if adversaire can beat me only if possible
+		if(false)
+		for (std::vector<PacMan>::iterator it = hisPac.begin();
+			it != hisPac.end();
+			++it) {
+			int minx = abs(p.x - (*it).getX());
+			int miny = abs(p.y - (*it).getY());
+			if (minx + miny <= 1 && !e.CanIBeat((*it))) {
+				ret = "SWITCH " + std::to_string(e.getId()) + " " + e.getAttaque((*it).getChifoumi());
+			}
+			//if(e.getX())
+		}
+
+		return ret;
 	}
 	//calcul for one pac where to go
 	Point deplacement(PacMan& e) {
-		double pN = -100, pE = -100, pW = -100, pS = -100;
+		double pN = .0, pE = .0, pW = .0, pS = .0;
 		Point pos(e.getX(), e.getY());
 		if (cart->deplacementPossible(pos.getN(), pos))
 			pN = poidTuile(0, pos.getN(), pos, e.getChifoumi());
@@ -77,27 +97,31 @@ public:
 			pS = poidTuile(0, pos.getS(), pos, e.getChifoumi());
 		if (cart->deplacementPossible(pos.getW(), pos))
 			pW = poidTuile(0, pos.getW(), pos, e.getChifoumi());
-		if (pE >= pS &&
-			pE >= pW &&
-			pE >= pN) {
+		if ((pE >= pS || pS==.0)&&
+			(pE >= pW || pW==.0)&&
+			(pE >= pN || pN==.0)&& 
+			pE!=.0) {
 			cart->deplacement(pos.getE());
 			return pos.getE();
 		}
-		if (pW >= pS &&
-			pW >= pE &&
-			pW >= pN) {
+		if ((pW >= pS ||pS==.0)&&
+			(pW >= pE ||pE==.0)&&
+			(pW >= pN ||pN==.0)&&
+			pW!=.0) {
 			cart->deplacement(pos.getW());
 			return pos.getW();
 		}
-		if (pS >= pN &&
-			pS >= pW &&
-			pS >= pE) {
+		if ((pS >= pN ||pN==.0)&&
+			(pS >= pW ||pW==.0)&&
+			(pS >= pE||pE==.0)&&
+			pS!=.0) {
 			cart->deplacement(pos.getS());
 			return pos.getS();
 		}
-		if (pN >= pE &&
-			pN >= pW &&
-			pN >= pS) {
+		if ((pN >= pE ||pE==.0)&&
+			(pN >= pW ||pW==.0)&&
+			(pN >= pS||pS==.0)&&
+			pN!=.0) {
 			cart->deplacement(pos.getN());
 			return pos.getN();
 		}
@@ -106,7 +130,8 @@ public:
 
 	std::string calculDeplacement(){
 		cart->clear();
-		bool speedPossible = (cpt == 0);
+		int tt = cpt % 10;
+		bool speedPossible = (cpt%10 == 0);
 		for (std::vector<PacMan>::iterator it = hisPac.begin(); it != hisPac.end(); ++it) {
 			cart->addEl(*it);
 		}
@@ -119,21 +144,32 @@ public:
 			cart->addEl(*it);
 			if (it != myPac.begin())
 				ret += "|";
-			if (!(*it).isSpeed()&& speedPossible) {
+			if (!(*it).isSpeed()&& speedPossible&&noSpeedTest) {
 				ret += "SPEED " + std::to_string((*it).getId());
-				cpt = 12;
 			}
 			else
 				ret += deplacementSpeed(*it);
 		}
-		--cpt;
+		++cpt;
 		return ret;
 	}
+
 	/**
 	for debug TU add all pass to tuile
 	*/
 	void allPass() {
 		cart->allPass();
 	}
-
+	void notPass(int a, int b) {
+		cart->notPass(a, b);
+	}
+	/**
+	for debug only
+	*/
+	void setCpt(int c) {
+		cpt = c;
+	}
+	void noSpeed() {
+		noSpeedTest = false;
+	}
 };
