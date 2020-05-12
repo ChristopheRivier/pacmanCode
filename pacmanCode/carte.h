@@ -39,6 +39,14 @@ public:
 	void clearVisite() { visite = false; }
 	bool isPasser() { return visite; }
 	void deplacement() { interdit = true; visite = true; }
+	bool isPilluleOnIt() {
+		for (std::vector<Element*>::iterator it = lst.begin(); it != lst.end(); ++it) {
+		
+			if (!(*it)->isPac())
+				return false;
+		}
+		return true;
+	}
 };
 
 class Carte {
@@ -101,6 +109,20 @@ public:
 	}
 	void addEl(Element& e) {
 		cart[e.getX()][e.getY()].addEl(e);
+		checkVisibility('N',Point(e.getX(),e.getY()),height);
+		checkVisibility('S', Point(e.getX(), e.getY()), height);
+		checkVisibility('E', Point(e.getX(), e.getY()), width);
+		checkVisibility('W', Point(e.getX(), e.getY()), width);
+
+	}
+
+	void checkVisibility(char direction,Point p, int prof) {
+		if (cart[p.x][p.y].isWall() || prof == 0)
+			return;
+		if (!cart[p.x][p.y].isPilluleOnIt())
+			cart[p.x][p.y].passer();
+		prof--;
+		checkVisibility(direction, p.get(direction), prof);
 	}
 	double getPoid(Point& p,Element::Echifoumi monType) {
 		return cart[p.x][p.y].getPoid(monType);

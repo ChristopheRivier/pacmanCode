@@ -143,15 +143,19 @@ public:
 		std::string ret;
 		for (std::vector<PacMan>::iterator it = myPac.begin(); it != myPac.end(); ++it) {
 			cart->addEl(*it);
-			if (it != myPac.begin())
-				ret += "|";
-			std::string ss= deplacementSpeed(*it);
-			//if (!(*it).isSpeed()&& speedPossible&&noSpeedTest &&( ss.rfind("SWITCH")!=0||cpt<50)) {
-			if (!(*it).isSpeed() && speedPossible && noSpeedTest ) {
+		}
+		for (std::vector<PacMan>::iterator it = myPac.begin(); it != myPac.end(); ++it) {
+			if (!(*it).isDead()) {
+				if (it != myPac.begin())
+					ret += "|";
+				std::string ss = deplacementSpeed(*it);
+				//if (!(*it).isSpeed()&& speedPossible&&noSpeedTest &&( ss.rfind("SWITCH")!=0||cpt<50)) {
+				if (!(*it).isSpeed() && speedPossible && noSpeedTest) {
 					ret += "SPEED " + std::to_string((*it).getId());
+				}
+				else
+					ret += ss;
 			}
-			else
-				ret += ss;
 		}
 		++cpt;
 		return ret;

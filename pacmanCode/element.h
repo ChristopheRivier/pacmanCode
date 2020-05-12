@@ -13,7 +13,8 @@ public:
 	enum Echifoumi {
 		pierre = 0,
 		papier,
-		ciseau
+		ciseau,
+		mort
 	};
 	Element(Point p, EType e, int i, int v, bool m) :pos(p), typ(e), id(i), val(v),mine(m) {}
 	bool isMine() { return mine; }
@@ -27,13 +28,13 @@ public:
 			break;
 		case Element::Pac:
 
-			return -1000;
+			return -800;
 			break;
 		case Element::Bouffe:
 			if (val > 1)
 				return val * 100000;
 			else
-				return 600;
+				return 700;
 			break;
 		default:
 			return -100;
@@ -76,7 +77,10 @@ public:
 			chichi = papier;
 		else if (t.compare("SCISSORS") == 0)
 			chichi = ciseau;
+		else
+			chichi = mort;
 	}
+	bool isDead() { return chichi == mort; }
 	double getPoid(Echifoumi chi) {
 		if (!isMine() && ((chi == pierre && chichi == ciseau) ||
 			(chi == papier && chichi == pierre) ||
@@ -84,7 +88,7 @@ public:
 			return Singleton::get().getPoidAttaque();
 		}
 		else
-			return isMine() ? -10:-1000;
+			return isMine() ? -1000:-750;
 	}
 	Echifoumi getChifoumi() { return chichi; }
 	bool isPac() { return true; }

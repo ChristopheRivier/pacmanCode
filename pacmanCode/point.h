@@ -7,7 +7,7 @@ class Singleton {
 	Singleton() {} // constructeur privé
 	int width;
 	int height;
-	double poidAttaque=7000;
+	double poidAttaque=11500;
 	static Singleton *singleton;
 
 public:
