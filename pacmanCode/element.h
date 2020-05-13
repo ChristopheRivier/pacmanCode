@@ -34,7 +34,7 @@ public:
 			if (val > 1)
 				return val * 100000;
 			else
-				return 700;
+				return Singleton::get().getPoidBouffe();
 			break;
 		default:
 			return -100;
@@ -88,7 +88,7 @@ public:
 			return Singleton::get().getPoidAttaque();
 		}
 		else
-			return isMine() ? -1000:-750;
+			return isMine() ? -1000:-1000;
 	}
 	Echifoumi getChifoumi() { return chichi; }
 	bool isPac() { return true; }

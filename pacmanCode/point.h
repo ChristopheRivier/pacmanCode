@@ -7,11 +7,13 @@ class Singleton {
 	Singleton() {} // constructeur privé
 	int width;
 	int height;
-	double poidAttaque=11500;
-	static Singleton *singleton;
+	double poidAttaque = 11000;
+	double poidVisite = 800;
+	double poidBouffe = 600;
+	static Singleton* singleton;
 
 public:
-	static Singleton &get() { // pour obtenir le singleton
+	static Singleton& get() { // pour obtenir le singleton
 	   // Instanciation au premier appel seulement
 		static Singleton singleton;
 		return singleton;
@@ -22,6 +24,16 @@ public:
 	void setPoidAttaque(double  a) {
 		poidAttaque = a;
 	}
+	double getPoidVisite() {
+		return poidVisite;
+	}
+	void setPoidVisite(double e) {
+		poidVisite = e;
+	}
+	double getPoidBouffe() {
+		return poidBouffe;
+	}
+	void setPoidBouffe(double e) { poidBouffe = e; }
 	// ...
 	void setWidth(int w) {
 		width = w-1;

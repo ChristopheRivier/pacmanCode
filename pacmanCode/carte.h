@@ -32,7 +32,7 @@ public:
 			a += (*it)->getPoid(chi);
 		}
 		if(!visite)
-			a += 600.;
+			a += Singleton::get().getPoidVisite();
 		return a;
 	}
 	void passer() { visite = true; }
