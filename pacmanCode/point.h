@@ -4,12 +4,12 @@
 #include <string>
 
 class Singleton {
-	Singleton() {} // constructeur privé
+	Singleton() {} // constructeur privÃ©
 	int width;
 	int height;
-	double poidAttaque = 11000;
-	double poidVisite = 800;
-	double poidBouffe = 600;
+	double poidAttaque = 1000;
+	double poidVisite = 850;
+	double poidBouffe = 450;
 	static Singleton* singleton;
 
 public:
