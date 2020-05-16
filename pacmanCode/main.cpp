@@ -2,13 +2,14 @@
 #include <string>
 #include <vector>
 #include <algorithm>
+#include <map>
 
 using namespace std;
-bool param = true;
+bool param = false;
 #include "point.h"
 #include "element.h"
 #include "carte.h"
-
+#include "actions.h"
 #include "game.h"
 
 

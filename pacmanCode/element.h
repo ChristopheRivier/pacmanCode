@@ -102,7 +102,7 @@ public:
 	std::string getStrType() {
 		return getStrType(chichi);
 	}
-	std::string getStrType(Echifoumi tt) {
+	static std::string getStrType(Echifoumi tt) {
 		switch (tt) {
 		case ciseau:
 			return "SCISSORS";
@@ -123,20 +123,21 @@ public:
 		}
 		return false;
 	}
-	std::string getAttaque(Echifoumi e) {
+
+	Echifoumi getAttaque(Echifoumi e) {
 		switch (e)
 		{
 		case Element::pierre:
-			return getStrType(papier);
+			return papier;
 			break;
 		case Element::papier:
-			return getStrType(ciseau);
+			return ciseau;
 			break;
 		case Element::ciseau:
-			return getStrType(pierre);
+			return pierre;
 			break;
 		default:
-			return getStrType(papier);
+			return papier;
 			break;
 		}
 	}

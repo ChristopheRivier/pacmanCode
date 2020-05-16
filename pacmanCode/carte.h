@@ -27,7 +27,7 @@ public:
 		lst.push_back(&e);
 	}
 	double getPoid(Element::Echifoumi chi) {
-		double a = .1;
+		double a = Singleton::get().getPoidVide();
 		for (std::vector<Element*>::iterator it = lst.begin(); it != lst.end(); ++it) {
 			a += (*it)->getPoid(chi);
 		}
