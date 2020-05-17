@@ -26,6 +26,19 @@ public:
 			passer();
 		lst.push_back(&e);
 	}
+	void delEl(Element& e) {
+		//tester que le dernier élément est bien ce qu’on supprime.
+		std::vector<Element*>::iterator trouve = lst.end();
+		for (std::vector<Element*>::iterator it = lst.begin();
+			it != lst.end() && trouve == lst.end();
+			++it) {
+			if ((*it)->getId() == e.getId() && (*it)->isMine() == (*it)->isMine()) {
+				trouve = it;
+			}
+		}
+		if (trouve != lst.end())
+			lst.erase(trouve);
+	}
 	double getPoid(Element::Echifoumi chi) {
 		double a = Singleton::get().getPoidVide();
 		for (std::vector<Element*>::iterator it = lst.begin(); it != lst.end(); ++it) {
@@ -106,6 +119,9 @@ public:
 	}
 	void position(Point p) {
 		cart[p.x][p.y].passer();
+	}
+	void delPac(PacMan& e) {
+		cart[e.getX()][e.getY()].delEl(e);
 	}
 	void addEl(Element& e) {
 		cart[e.getX()][e.getY()].addEl(e);

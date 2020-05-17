@@ -10,6 +10,7 @@ class Singleton {
 	double poidAttaque = 1000;
 	double poidVisite = 850;
 	double poidBouffe = 10;
+	double poidBouffeMax = 100;
 	double poidVide = 10;
 	double poidFuite = -1100;
 	static Singleton* singleton;
@@ -42,6 +43,8 @@ public:
 		return poidBouffe;
 	}
 	void setPoidBouffe(double e) { poidBouffe = e; }
+	double getPoidBouffeMax() { return poidBouffeMax; }
+	void setPoidBouffeMax(double a) { poidBouffeMax = a; }
 	// ...
 	void setWidth(int w) {
 		width = w-1;

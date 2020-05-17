@@ -65,15 +65,18 @@ public:
 	Action deplacementSpeed(PacMan& e) {
 		Point sauv = Point(e.getX(), e.getY());
 		std::map<int, Action>::iterator lastAction = lstAction.find(e.getId());
-		if (lastAction != lstAction.end()&&(*lastAction).second.getAction()==Action::Move) {
-			cart->deplacement((*lastAction).second.getPoint());
+		if (e.isMine()) {
+			if (lastAction != lstAction.end() && (*lastAction).second.getAction() == Action::Move) {
+				cart->deplacement((*lastAction).second.getPoint());
+			}
+			cart->deplacement(sauv);
 		}
-		cart->deplacement(sauv);
 		Point p = deplacement(e);
 		if (e.isSpeed()) {
 			e.setPoint(p);
 			//on informe qu’on est déjà passer par là
-			cart->pass(p);
+			if(e.isMine())
+				cart->pass(p);
 			p = deplacement(e);
 		}
 		Action ret;
@@ -114,28 +117,32 @@ public:
 			(pE >= pW || pW==.0)&&
 			(pE >= pN || pN==.0)&& 
 			pE!=.0) {
-			cart->deplacement(pos.getE());
+			if(e.isMine())
+				cart->deplacement(pos.getE());
 			return pos.getE();
 		}
 		if ((pW >= pS ||pS==.0)&&
 			(pW >= pE ||pE==.0)&&
 			(pW >= pN ||pN==.0)&&
 			pW!=.0) {
-			cart->deplacement(pos.getW());
+			if (e.isMine())
+				cart->deplacement(pos.getW());
 			return pos.getW();
 		}
 		if ((pS >= pN ||pN==.0)&&
 			(pS >= pW ||pW==.0)&&
 			(pS >= pE||pE==.0)&&
 			pS!=.0) {
-			cart->deplacement(pos.getS());
+			if (e.isMine())
+				cart->deplacement(pos.getS());
 			return pos.getS();
 		}
 		if ((pN >= pE ||pE==.0)&&
 			(pN >= pW ||pW==.0)&&
 			(pN >= pS||pS==.0)&&
 			pN!=.0) {
-			cart->deplacement(pos.getN());
+			if (e.isMine())
+				cart->deplacement(pos.getN());
 			return pos.getN();
 		}
 		return pos;
@@ -143,27 +150,37 @@ public:
 
 	std::string calculDeplacement(){
 		cart->clear();
+		Singleton::get().setPoidBouffeMax(300);
+		Singleton::get().setPoidBouffe(900);
 		if (myPac.size() > 3) {
-			Singleton::get().setPoidAttaque(11500);
+			Singleton::get().setPoidAttaque(2000);
 		}
 		else {
-			Singleton::get().setPoidAttaque(1050);
+			Singleton::get().setPoidAttaque(1000);
 		}
 		if (cpt < 74) {
-			Singleton::get().setPoidFuite(-1050);
+			Singleton::get().setPoidFuite(-1600);
 			Singleton::get().setPoidVide(1);
-			Singleton::get().setPoidVisite(850);
+			Singleton::get().setPoidVisite(800);
 		}
 		else {
 			Singleton::get().setPoidFuite(-800);
 			Singleton::get().setPoidVide(1);
-			Singleton::get().setPoidVisite(1000);
+
+			Singleton::get().setPoidVisite(1100);
 		}
+
 		int tt = cpt % 10;
 
 		bool speedPossible = (cpt%10 == 0);
 		for (std::vector<PacMan>::iterator it = hisPac.begin(); it != hisPac.end(); ++it) {
 			cart->addEl(*it);
+			Action a = deplacementSpeed(*it);
+			if (a.getAction() == Action::Move) {
+				cart->delPac(*it);
+				(*it).setPoint(a.getPoint());
+				cart->addEl(*it);
+			}
 		}
 		for (std::vector<Element>::iterator it = pillule.begin(); it != pillule.end(); ++it) {
 			cart->addEl(*it);

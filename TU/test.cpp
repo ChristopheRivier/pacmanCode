@@ -62,7 +62,7 @@ TEST(TestCaseName, TestCombat) {
 
 	PacMan e(Point(1, 1), Element::Pac, 0, 0, false, "SCISSORS");
 	g.addPac(e);
-	e=PacMan(Point(0, 1), Element::Pac, 0, 0, true, "ROCK");
+	e=PacMan(Point(1, 1), Element::Pac, 0, 0, true, "ROCK");
 	g.addPac(e);
 	Element p(Point(1, 2), Element::Bouffe, 0, 1, false);
 
@@ -74,7 +74,7 @@ TEST(TestCaseName, TestCombat) {
 	g.addPillule(p);
 
 	g.noSpeed();
-	EXPECT_EQ(g.calculDeplacement(), "MOVE 0 1 1");
+	EXPECT_EQ(g.calculDeplacement(), "MOVE 0 2 1");
 	;
 }
 

@@ -32,7 +32,7 @@ public:
 			break;
 		case Element::Bouffe:
 			if (val > 1)
-				return val * 1000;
+				return val * (Singleton::get().getPoidBouffe()*Singleton::get().getPoidBouffeMax());
 			else
 				return Singleton::get().getPoidBouffe();
 			break;
