@@ -47,7 +47,7 @@ public:
 		double dividende = 4;
 		if (cart->isWall(fils))
 			return -10;
-		if (prof == 11 )
+		if (prof == 14 )
 			return p;
 		prof++;
 		p = cart->getPoid(fils,chi);
@@ -143,7 +143,24 @@ public:
 
 	std::string calculDeplacement(){
 		cart->clear();
+		if (myPac.size() > 3) {
+			Singleton::get().setPoidAttaque(11500);
+		}
+		else {
+			Singleton::get().setPoidAttaque(1050);
+		}
+		if (cpt < 74) {
+			Singleton::get().setPoidFuite(-1050);
+			Singleton::get().setPoidVide(1);
+			Singleton::get().setPoidVisite(850);
+		}
+		else {
+			Singleton::get().setPoidFuite(-800);
+			Singleton::get().setPoidVide(1);
+			Singleton::get().setPoidVisite(1000);
+		}
 		int tt = cpt % 10;
+
 		bool speedPossible = (cpt%10 == 0);
 		for (std::vector<PacMan>::iterator it = hisPac.begin(); it != hisPac.end(); ++it) {
 			cart->addEl(*it);
@@ -207,4 +224,6 @@ public:
 	void noSpeed() {
 		noSpeedTest = false;
 	}
+	/** For TU*/
+	Carte* getCarte() { return cart; }
 };

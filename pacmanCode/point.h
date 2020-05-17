@@ -9,8 +9,9 @@ class Singleton {
 	int height;
 	double poidAttaque = 1000;
 	double poidVisite = 850;
-	double poidBouffe = 450;
-	double poidVide = 100;
+	double poidBouffe = 10;
+	double poidVide = 10;
+	double poidFuite = -1100;
 	static Singleton* singleton;
 
 public:
@@ -19,10 +20,12 @@ public:
 		static Singleton singleton;
 		return singleton;
 	}
+	double getPoidFuite() { return poidFuite; }
+	void setPoidFuite(double a) { poidFuite = a; }
 	double getPoidVide() {
 		return poidVide;
 	}
-	void getPoidVide(double a) { poidVide = a; }
+	void setPoidVide(double a) { poidVide = a; }
 	double getPoidAttaque() {
 		return poidAttaque;
 	}

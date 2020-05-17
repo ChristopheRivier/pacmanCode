@@ -40,12 +40,12 @@ public:
 	bool isPasser() { return visite; }
 	void deplacement() { interdit = true; visite = true; }
 	bool isPilluleOnIt() {
+
 		for (std::vector<Element*>::iterator it = lst.begin(); it != lst.end(); ++it) {
-		
 			if (!(*it)->isPac())
-				return false;
+				return true;
 		}
-		return true;
+		return false;
 	}
 };
 
@@ -109,11 +109,13 @@ public:
 	}
 	void addEl(Element& e) {
 		cart[e.getX()][e.getY()].addEl(e);
-		checkVisibility('N',Point(e.getX(),e.getY()),height);
-		checkVisibility('S', Point(e.getX(), e.getY()), height);
-		checkVisibility('E', Point(e.getX(), e.getY()), width);
-		checkVisibility('W', Point(e.getX(), e.getY()), width);
-
+		//only if add my pac
+		if (e.isMine()&&e.isPac()&&!e.isDead()) {
+			checkVisibility('N', Point(e.getX(), e.getY()), height);
+			checkVisibility('S', Point(e.getX(), e.getY()), height);
+			checkVisibility('E', Point(e.getX(), e.getY()), width);
+			checkVisibility('W', Point(e.getX(), e.getY()), width);
+		}
 	}
 
 	void checkVisibility(char direction,Point p, int prof) {
@@ -129,6 +131,7 @@ public:
 	}
 	void printCarte() {
 		if (true) {
+			/*
 			for (int j = 0; j < height; ++j)
 			{
 				std::cerr << "	g.addCarteLine(" << j<<",\"";
@@ -138,16 +141,19 @@ public:
 				}
 				std::cerr<< "\");"<<std::endl;
 			}
-			/*
+			*/
 			for (int j = 0; j < height; ++j)
 			{
 				for (int i = 0; i < width; ++i)
 				{
-					std::cerr << cart[i][j].isPasser() ? "1 ":"0 ";
+					if (cart[i][j].isWall())
+						std::cerr << "#";
+					else
+						std::cerr << cart[i][j].isPasser() ? "1":"0";
 				}
 				std::cerr << "" << std::endl;
 			}
-			*/
+			
 		}
 	}
 	void clear() {
@@ -180,5 +186,8 @@ public:
 	}
 	void notPass(int a, int b) {
 		cart[a][b].clearVisite();
+	}
+	bool isPasser(Point p) {
+		return cart[p.x][p.y].isPasser();
 	}
 };

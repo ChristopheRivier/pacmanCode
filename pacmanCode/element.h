@@ -32,7 +32,7 @@ public:
 			break;
 		case Element::Bouffe:
 			if (val > 1)
-				return val * 100000;
+				return val * 1000;
 			else
 				return Singleton::get().getPoidBouffe();
 			break;
@@ -46,6 +46,7 @@ public:
 		pos.x = p.x;
 		pos.y = p.y;
 	}
+	virtual bool isDead() { return false; }
 	virtual bool isPac() { return false; }
 	virtual void print() {
 		std::cerr << "el=Element(Point(" + std::to_string(pos.x) + "," + std::to_string(pos.y) + "), Element::Bouffe, " + std::to_string(getId()) + "," +
@@ -88,7 +89,7 @@ public:
 			return Singleton::get().getPoidAttaque();
 		}
 		else
-			return isMine() ? -1000:-1000;
+			return isMine() ? -1000:Singleton::get().getPoidFuite();
 	}
 	Echifoumi getChifoumi() { return chichi; }
 	bool isPac() { return true; }
